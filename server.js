@@ -3,19 +3,15 @@ const express = require('express');
 const transporter = require('./config');
 const dotenv = require('dotenv');
 const cors = require('cors');
-
 dotenv.config();
 const app = express();
 app.use(cors());
 app.use(express.json());
-
-
 const buildPath = path.join(__dirname, '..', 'build');
 app.use(express.json());
 app.use(express.static(buildPath));
 
 app.post('/send', (req, res) => {
-  console.log(process.env.email);
   try {
     const mailOptions = {
       from:  process.env.email,
@@ -31,11 +27,8 @@ app.post('/send', (req, res) => {
         <li>Message: ${req.body.message}</li>
       </ul>
       `
-    };
-    console.log(req.body.email);
-    
-    transporter.sendMail(mailOptions, function (err, info) {
-      console.log(mailOptions);  
+    };  
+    transporter.sendMail(mailOptions, function (err, info) {  
       if (err) {
         console.log(err);
         res.status(500).send({
